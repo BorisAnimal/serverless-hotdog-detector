@@ -1,3 +1,36 @@
+# DSaCC A5 Authentication and authorization
+---
+#### Authors:
+
+Maxim Surkov
+Boris Guryev
+Denis Chernikov
+Vladislav Kuleykin
+
+---
+![](https://i.imgur.com/ejvaGdp.png)
+
+### Task 1: authentication
+In given app authentication is implemented via Amazon Cognito User Pool and OAuth 2.0 protocol. User authenticates with account of application ("Unicorn Resource server") or creates new account then authenticate. After authentication, third party services can apply given service's account for authorization in their applications and use account's data indicated in scope. 
+
+Once the user is authenticated, the client application receives an identity and access token (JWT). Further, information from JWT uses in authorization. 
+![](https://i.imgur.com/mKbS3q9.png)
+
+### Task 2: authorization
+The authorization in this app is implemented using the Amazon Lambda function. When the call received by Amazon API Gateway, it goes to the "Custom authorizer" Lambda Function, which gives the policy, based on the JWT access token and context of call. Then the needed query to the DynamoDB is made with given policy.
+![](https://i.imgur.com/OJQ0krc.png)
+
+
+
+### Task 3: assessment on the authorization and authentication
+The overall structure seems good, but there is no protection against the BruteForce (both to the Cognito User Pool and API Gateway). Such policy as requests limit can fix it.
+
+Amazon Cognito User Pool supports authorization code grant, implicit, and client credentials grants for OAuth, however as indicated in project's description and scheme, in given application implicit grant flow is implemented for simplicity. In implicit grant flow client receives access token directly and this is only safe in browser environment (where it's not possible to intercept for any intermediary server/routers). However, in given scheme, third-party application services will be used as well which leads to probable leakage of access token. Thus it's recommended to use authorization code grant flow as it uses additional one-time-use authorization code which is bundled with client secret, so that approach allows to pass access token safely, since client secret is not exposed to network. 
+
+
+
+# ---------------------------------------------------------------------
+
 # Serverless Hotdog Detector
 
 This example shows you how to build a [serverless](https://aws.amazon.com/serverless/#getstarted) [hotdog detecting app](https://www.youtube.com/watch?v=ACmydtFDTGs) on AWS using [Amazon API Gateway](https://aws.amazon.com/api-gateway/), [AWS Lambda](https://aws.amazon.com/lambda/), and [Amazon Rekognition](https://aws.amazon.com/rekognition/).
