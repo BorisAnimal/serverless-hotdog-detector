@@ -2,10 +2,10 @@
 ---
 #### Authors:
 
-Maxim Surkov
-Boris Guryev
-Denis Chernikov
-Vladislav Kuleykin
+Maxim Surkov\
+Boris Guryev\
+Denis Chernikov\
+Vladislav Kuleykin\
 
 ---
 ![](https://i.imgur.com/ejvaGdp.png)
