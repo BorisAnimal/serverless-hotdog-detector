@@ -1,5 +1,16 @@
 service: awsoneTelebot
 
+package:
+  exclude:
+    - images/*
+    - CODE_OF_CONDUCT.md
+    - lambda_functions/*
+    - CONTRIBUTING.md
+    - LICENSE
+    - NOTICE
+    - deploy_readme.md
+    - init.sh
+
 provider:
   name: aws
   runtime: python3.6
