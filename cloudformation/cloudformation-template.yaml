@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description: Resource definitions for the game_find_me app
+
+Resources:
+  GameFindMeLogic:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.lambda_handler
+      Runtime: python3.6
+      CodeUri: ../lambda_functions/
+      Timeout: 180
+      Policies:
+      - AmazonDynamoDBFullAccess # Read/Write game state
+      - CloudWatchLogsFullAccess # Write logs
+      - AmazonRekognitionFullAccess # Recognize photos
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /post_message
+            Method: POST
+      Environment:
+        Variables:
+          BOT_ALIAS: '<Enter Your bot alias here>'
+          TELEGRAM_TOKEN: '<Enter your bot telegram token here>'
+          REGION_NAME: us-east-1
+          GAME_STATE_TABLE: !Ref DynamoGameStateTable
+          USERS_TABLE: !Ref DynamoUsersTable
+
+
+  DynamoGameStateTable:
+    Type: AWS::Serverless::SimpleTable # if you want to define a more complex table, use AWS::DynamoDB::Table
+    TableName: gameFindMeGameStates
+    Properties:
+      PrimaryKey:
+        Name: game_id
+        Type: Number
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  
+  DynamoUsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: gameFindMeUsers
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      AttributeDefinitions: 
+        - 
+          AttributeName: "user_id"
+          AttributeType: "N"
+        - 
+          AttributeName: "game_id"
+          AttributeType: "N"
+      KeySchema:
+        - 
+          AttributeName: "user_id"
+          KeyType: "HASH"
+        - 
+          AttributeName: "game_id"
+          KeyType: "RANGE"
