@@ -19,11 +19,11 @@ After that, put the alias and token, that you've got after creation of the bot i
 Then execute the next two commands in the `AWS CLI`:
 
 ```bash
-> aws cloudformation package --template-file template.yaml --s3-bucket <name-of-your-bucket> --output-template-file packaged.yaml
+> aws cloudformation package --s3-bucket <name-of-your-bucket> --template-file cloudformation/cloudformation-template.yaml --output-template-file cloudformation/packaged.yaml
 
 Successfully packaged artifacts and wrote output template to file packaged.yaml.
 
-> aws cloudformation deploy --template-file packaged.yaml --stack-name <name-of-your-stack> --capabilities CAPABILITY_IAM
+> aws cloudformation deploy --stack-name <name-of-your-stack> --template-file cloudformation/packaged.yaml --capabilities CAPABILITY_IAM
 
 Waiting for changeset to be created..
 Waiting for stack create/update to complete
