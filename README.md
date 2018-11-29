@@ -3,7 +3,7 @@
 Simple game for the Telegram messenger, using the AWS services for the image recognition, storage and logic for the bot.\
 The project is based on the [Serverless-HotDog-Detector](https://github.com/aws-samples/serverless-hotdog-detector).
 
-**Authors:**
+**Authors:** \
 Maxim Surkov\
 Boris Guryev\
 Denis Chernikov\
